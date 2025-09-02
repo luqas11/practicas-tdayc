@@ -1,0 +1,18 @@
+Definir las limitaciones del sensor, retardo, mínima unidad discernible, ancho
+de banda.
+
+Dispositivo:
+La frecuencia de comunicación por I2C del dispositivo es a 400kHz.
+Tiene ADCs de 16 bits.
+La máxima aceleración que puede soportar mecánicamente es de 10000g.
+El ruido limita los valores mínimos que se pueden discernir.
+
+Giroscopios:
+El máximo rango de escala es 2000°/seg.
+La tasa de salida de datos máxima es de 8kHz.
+La frecuencia mecánica máxima es de aproximadamente 30kHz.
+El delay de arranque es de 30ms.
+
+Acelerómetros:
+El máximo rango de escala es 16g.
+La tasa de salida de datos máxima es de 1kHz.
