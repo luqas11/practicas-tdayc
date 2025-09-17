@@ -1,0 +1,6 @@
+yn-2 + alpha * yn-1 + beta * yn = gamma * un
+
+yn / un = gamma / (z^2 + alpha*z + beta)
+
+Llevar polos a continuo, y buscar el k de forma de que la respuesta en continua sea la correcta.
+Ángulo cero = barra horizontal = IMU mide cero
