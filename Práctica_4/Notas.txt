@@ -1,0 +1,6 @@
+Requerimientos del controlador:
+Aproximadamente 10% de sobrepico.
+Aproximadamente 0.5s de tiempo de establecimiento.
+Aproximar por backwards difference y bilineal.
+Con seguimiento al escalón y rechazo a perturbaciones de tipo escalón.
+Debe ser lo más sencillo posible.
