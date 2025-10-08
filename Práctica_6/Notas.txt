@@ -1,0 +1,35 @@
+El backwards va a andar mejor porque el bilineal va a tener mucho ruido.
+En general, primero se ajusta kp, y después kd y ki.
+En general, kd y ki arrancan con 1 o 2 órdenes de magnitud menor a kp.
+
+Tarea:
+Primero implementar el código del backwards y del bilineal, después pedir revisión.
+Son 3 líneas cada código.
+Implementar con todas las constantes en cero, arrancar ajustando la kp y pedir revisión.
+Primero hacer todo con el backwards, y después hacer todo con el bilineal.
+
+Constantes:
+
+k0 = 3.2
+
+kp:
+Teórico = k0*0.5
+Backwards = k0*0.8
+
+ki:
+Teórico = k0*0.4
+Backwards = k0 * 0.35
+
+kd:
+Teórico = kp*0.05/2
+Backwards = kp*0.05
+
+Backwards, prueba 2:
+float kp = k0*0.4;
+float ki = k0*0.3;
+float kd = kp*0.1;
+
+Bilineal:
+float kp = k0*0.4;
+float ki = k0*0.2;
+float kd = kp*0.0001;
