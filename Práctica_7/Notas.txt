@@ -1,0 +1,6 @@
+xk+1^ = xk^ + T * xk + l1 (theta_k - theta_k^)
+
+Pasar transferencia a espacio de estados.
+Mupliplicar por 5 o 10 los polos continuos para L.
+Vamos a usar solamente el acelerómetro para estimar la velocidad angular.
+Los thetas estimados deberían coincidir con los medidos en un gráfico de Matlab.
