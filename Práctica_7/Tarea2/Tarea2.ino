@@ -26,16 +26,21 @@ float theta_g = 0;
 float theta_a = 0;
 float theta = 0;
 
+float omega = 0;
+
 float a1 = 1;
 float a2 = 0.02;
-float a3 = -2.496;
-float a4 = 0.68;
+float a3 = 0;
+float a4 = -2.50;
+float a5 = 0.68;
+float a6 = 0;
+float a7 = 0;
+float a8 = 0;
+float a9 = 1;
 
 float b1 = 0;
 float b2 = 0.944;
-
-float c1 = 1;
-float c2 = 0;
+float b3 = 0;
 
 float theta_k = 0;
 float theta_k1 = 0;
@@ -43,10 +48,18 @@ float theta_k1 = 0;
 float theta_dot_k = 0;
 float theta_dot_k1 = 0;
 
-float y_k = 0;
+float b_k = 0;
+float b_k1 = 0;
 
-float l1 = 1.2811;
-float l2 = 9.0999;
+float y_k = 0;
+float y_dot_k = 0;
+
+float l1 = 0.3832;
+float l2 = -0.0060;
+float l3 = -2.4899;
+float l4 = -0.0182;
+float l5 = -0.0380;
+float l6 = 0.4947;
 
 void setup(void) {
   Serial.begin(115200);
@@ -85,15 +98,20 @@ void loop() {
 
   theta_g = theta + g.gyro.x * 0.02 * (180 / PI);
   theta = ALPHA * theta_a + (1 - ALPHA) * theta_g;
+
+  omega = g.gyro.x * (180 / PI) + 10;
   
   y_k = theta_k;
-  theta_k1 = a1 * theta_k + a2 * theta_dot_k + l1 * (theta - y_k) + b1 * u; 
-  theta_dot_k1 = a3 * theta_k + a4 * theta_dot_k + l2 * (theta - y_k) + b2 * u;
+  y_dot_k = theta_dot_k + b_k;
+  theta_k1 = a1 * theta_k + a2 * theta_dot_k + a3 * b_k + l1 * (theta - y_k) + l2 * (omega - y_dot_k) + b1 * u;
+  theta_dot_k1 = a4 * theta_k + a5 * theta_dot_k + a6 * b_k + l3 * (theta - y_k) + l4 * (omega - y_dot_k) + b2 * u;
+  b_k1 = a7 * theta_k + a8 * theta_dot_k + a9 * b_k + l5 * (theta - y_k) + l6 * (omega - y_dot_k) + b3 * u;
 
-  matlab_send(u, theta, theta_k, g.gyro.x * (180 / PI), theta_dot_k, b_k);
+  matlab_send(u, theta, theta_k, omega, y_dot_k, theta_dot_k, b_k);
 
   theta_k = theta_k1;
   theta_dot_k = theta_dot_k1;
+  b_k = b_k1;
 
   if (counter == 100) {
     counter = 0;
@@ -125,7 +143,7 @@ void writeServo(float angle) {
   myservo.writeMicroseconds(valueMicros);
 }
 
-void matlab_send(float dato1, float dato2, float dato3, float dato4, float dato5) {
+void matlab_send(float dato1, float dato2, float dato3, float dato4, float dato5, float dato6, float dato7) {
   Serial.write("abcd");
   byte *b1 = (byte *)&dato1;
   Serial.write(b1, 4);
@@ -137,5 +155,9 @@ void matlab_send(float dato1, float dato2, float dato3, float dato4, float dato5
   Serial.write(b4, 4);
   byte *b5 = (byte *)&dato5;
   Serial.write(b5, 4);
+  byte *b6 = (byte *)&dato6;
+  Serial.write(b6, 4);
+  byte *b7 = (byte *)&dato7;
+  Serial.write(b7, 4);
   //etc con mas datos tipo float. Tambien podría pasarse como parámetro a esta funcion un array de floats.
 }
