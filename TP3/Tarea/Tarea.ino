@@ -38,23 +38,23 @@ float a1 = 1;
 float a2 = 0.02;
 float a3 = 0;
 float a4 = 0;
-float a5 = 0;
-float a6 = 0.8124;
-float a7 = -0.6;
+float a5 = -2.048;
+float a6 = 0.600;
+float a7 = 0;
 float a8 = 0;
 float a9 = 0;
 float a10 = 0;
 float a11 = 1;
 float a12 = 0.02;
-float a13 = 0;
+float a13 = 0.97;
 float a14 = 0;
-float a15 = -2.0480;
-float a16 = 0.6;
+float a15 = 0;
+float a16 = 0.8124;
 
 float b1 = 0;
-float b2 = 0;
+float b2 = 0.97;
 float b3 = 0;
-float b4 = 0.97;
+float b4 = 0;
 
 float theta_k = 0;
 float theta_k1 = 0;
@@ -71,14 +71,14 @@ float p_dot_k1 = 0;
 float y_theta_k = 0;
 float y_p_k = 0;
 
-float l1 = 0.6709;
-float l2 = 0.1353;
-float l3 = 2.8563;
-float l4 = 1.1237;
-float l5 = 0.0078;
-float l6 = 0.4742;
-float l7 = 0.009;
-float l8 = -2.0056;
+float l1 = 0.4670;
+float l2 = 0.0046;
+float l3 = -2.0076;
+float l4 = 1.0069;
+float l5 = 0.0544;
+float l6 = 0.6781;
+float l7 = 1.6893;
+float l8 = 2.8911;
 
 void setup(void) {
   Serial.begin(115200);
