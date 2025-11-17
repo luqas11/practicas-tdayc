@@ -10,17 +10,17 @@
 #define ALPHA 0.1f
 #define MIN_SERVO_US 557     // 0° de rotación del servo
 #define MAX_SERVO_US 2388    // 180° de rotación del servo
-#define MIN_SERVO_ANGLE 60   // Ángulo mínimo del servo que admite la planta
-#define MAX_SERVO_ANGLE 150  // Ángulo máximo del servo que admite la planta
-#define SERVO_OFFSET 7    // Offset de la IMU respecto del servo
-#define IMU_OFFSET 1.45 // Offset IMU respecto la barra
+#define MIN_SERVO_ANGLE 50   // Ángulo mínimo del servo que admite la planta
+#define MAX_SERVO_ANGLE 130  // Ángulo máximo del servo que admite la planta
+#define SERVO_OFFSET 12    // Offset de la barra respecto del servo
+#define IMU_OFFSET 3.20 // Offset IMU respecto la barra
 #define TRIGGER_PIN  7
 #define ECHO_PIN     6
 #define MAX_DISTANCE 200
 #define SOUND_SPEED 340.29f
-#define DISTANCE_OFFSET 15.38f
-#define VALUE_I 15
-#define VALUE_F -15
+#define DISTANCE_OFFSET 15.65f
+#define VALUE_I 0
+#define VALUE_F -20
 
 Servo myservo;
 Adafruit_MPU6050 mpu;
@@ -35,16 +35,13 @@ float theta_g = 0;
 float theta_a = 0;
 float theta = 0;
 
-float T = 0.02;
-
 void setup(void) {
   Serial.begin(115200);
   while (!Serial)
-    delay(10);  // will pause Zero, Leonardo, etc until serial console opens
+    delay(10);
 
   Serial.println("Adafruit MPU6050 test!");
 
-  // Try to initialize!
   if (!mpu.begin()) {
     Serial.println("Failed to find MPU6050 chip");
     while (1) {
@@ -65,7 +62,6 @@ void setup(void) {
 void loop() {
   t1 = micros();
 
-  /* Get new sensor events with the readings */
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
 
@@ -78,35 +74,21 @@ void loop() {
   unsigned int time = sonar.ping(40);
   float position = (((time * SOUND_SPEED) / 10000) / 2) - DISTANCE_OFFSET;
 
-  /*/
-  if (counter == 50) {
-    counter = 0;
-    if (value == VALUE_I) {
-      value = VALUE_F; //110
-      writeServo(value);
-    } else {
-      value = VALUE_I;
-      writeServo(value);
-    }
-  } else {
-    counter++;
-  }
-  */
-  if (counter == 15) {
+  if (counter == 500) {
     counter = 0;
     if (value == VALUE_I) {
       value = VALUE_F; 
-      writeServo(value);
     } else {
       value = VALUE_I;
-      writeServo(value);
     }
   } else {  
     counter++;
   }
 
   writeServo(value);
-  Serial.println(theta);
+  //Serial.println(theta + IMU_OFFSET);
+  //Serial.println(position);
+  //Serial.println();
   matlab_send(position, theta + IMU_OFFSET , value);
 
   while (micros() < t1 + PERIOD) {};
@@ -122,7 +104,7 @@ void writeServo(float angle) {
     value = MAX_SERVO_ANGLE;
   }
 
-  float valueMicros = value * ((MAX_SERVO_US - MIN_SERVO_US) / 180) + MIN_SERVO_US;
+  float valueMicros = (value * (MAX_SERVO_US - MIN_SERVO_US)) / 180 + MIN_SERVO_US;
   myservo.writeMicroseconds(valueMicros);
 }
 
