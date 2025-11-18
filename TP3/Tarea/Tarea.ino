@@ -8,17 +8,17 @@
 
 #define PERIOD 20000  // período correspondiente a una frecuencia de 50Hz
 #define ALPHA 0.1f
-#define MIN_SERVO_US 550     // 0° de rotación del servo
-#define MAX_SERVO_US 2470    // 180° de rotación del servo
-#define MIN_SERVO_ANGLE 60   // Ángulo mínimo del servo que admite la planta
-#define MAX_SERVO_ANGLE 150  // Ángulo máximo del servo que admite la planta
-#define SERVO_OFFSET 13 // Offset de la IMU respecto del servo
+#define MIN_SERVO_US 557     // 0° de rotación del servo
+#define MAX_SERVO_US 2388    // 180° de rotación del servo
+#define MIN_SERVO_ANGLE 50   // Ángulo mínimo del servo que admite la planta
+#define MAX_SERVO_ANGLE 130  // Ángulo máximo del servo que admite la planta
+#define SERVO_OFFSET 12    // Offset de la barra respecto del servo
+#define IMU_OFFSET 3.20 // Offset IMU respecto la barra
 #define TRIGGER_PIN  7
 #define ECHO_PIN     6
 #define MAX_DISTANCE 200
 #define SOUND_SPEED 340.29f
-#define DISTANCE_OFFSET 15.38f
-#define IMU_OFFSET 2.1f
+#define DISTANCE_OFFSET 15.65f
 
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 Servo myservo;
@@ -38,21 +38,21 @@ float a1 = 1;
 float a2 = 0.02;
 float a3 = 0;
 float a4 = 0;
-float a5 = -2.048;
-float a6 = 0.600;
+float a5 = -3.42;
+float a6 = 0.48;
 float a7 = 0;
 float a8 = 0;
 float a9 = 0;
 float a10 = 0;
 float a11 = 1;
 float a12 = 0.02;
-float a13 = 0.97;
+float a13 = -0.5;
 float a14 = 0;
 float a15 = 0;
-float a16 = 0.8124;
+float a16 = 0.8650;
 
 float b1 = 0;
-float b2 = 0.97;
+float b2 = 1.5;
 float b3 = 0;
 float b4 = 0;
 
@@ -71,14 +71,14 @@ float p_dot_k1 = 0;
 float y_theta_k = 0;
 float y_p_k = 0;
 
-float l1 = 0.4670;
-float l2 = 0.0046;
-float l3 = -2.0076;
-float l4 = 1.0069;
-float l5 = 0.0544;
-float l6 = 0.6781;
-float l7 = 1.6893;
-float l8 = 2.8911;
+float l1 = 0.3803;
+float l2 = -0.0007;
+float l3 = -3.2304;
+float l4 = 0.0018;
+float l5 = -0.0109;
+float l6 = 0.6975;
+float l7 = -0.6599;
+float l8 = 3.8940;
 
 void setup(void) {
   Serial.begin(115200);
