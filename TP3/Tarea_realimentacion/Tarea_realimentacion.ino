@@ -12,8 +12,8 @@
 #define MAX_SERVO_US 2388    // 180° de rotación del servo
 #define MIN_SERVO_ANGLE 50   // Ángulo mínimo del servo que admite la planta
 #define MAX_SERVO_ANGLE 130  // Ángulo máximo del servo que admite la planta
-#define SERVO_OFFSET 12    // Offset de la barra respecto del servo
-#define IMU_OFFSET 3.20 // Offset IMU respecto la barra
+#define SERVO_OFFSET 10    // Offset de la barra respecto del servo
+#define IMU_OFFSET 2.20 // Offset IMU respecto la barra
 #define TRIGGER_PIN  7
 #define ECHO_PIN     6
 #define MAX_DISTANCE 200
@@ -33,6 +33,7 @@ float theta_g = 0;
 float theta_a = 0;
 float theta_c = 0;
 float theta = 0;
+float p_prev = 0;
 
 float a1 = 1;
 float a2 = 0.02;
@@ -79,6 +80,14 @@ float l5 = -0.0109;
 float l6 = 0.6975;
 float l7 = -0.6599;
 float l8 = 3.8940;
+
+float k1 = -0.9301;
+float k2 = -0.0111;
+float k3 = 2.6093;
+float k4 = 0.3862;
+
+float f1 = 0;
+float f2 = -2.6093;
 
 void setup(void) {
   Serial.begin(115200);
@@ -134,25 +143,17 @@ void loop() {
   p_k1 = a9 * theta_k + a10 * theta_dot_k + a11 * p_k + a12 * p_dot_k + l5 * (theta - y_theta_k) + l6 * (p - y_p_k) + b3 * u;
   p_dot_k1 = a13 * theta_k + a14 * theta_dot_k + a15 * p_k + a16 * p_dot_k + l7 * (theta - y_theta_k) + l8 * (p - y_p_k) + b4 * u;
 
-  matlab_send(theta, theta_k, theta_dot, theta_dot_k, p, p_k, p_dot_k);
+  float p_dot = (p - p_prev) / 0.02;
+  matlab_send(theta, theta_k, theta_dot, theta_dot_k, p, p_k, p_dot, p_dot_k, u);
 
   theta_k = theta_k1;
   theta_dot_k = theta_dot_k1;
   p_k = p_k1;
   p_dot_k = p_dot_k1;
+  p_prev = p;
 
-  if (counter == 500) {
-    u = 10;
-    writeServo(u);
-    counter++;
-  } else if (counter == 550){
-    u = 0;
-    writeServo(u);
-    counter = 0;
-  }
-  else {
-    counter++;
-  }
+  u = k1 * theta_k + k2 * theta_dot_k + k3 * p_k + k4 * p_dot_k;
+  writeServo(u);
 
   while (micros() < t1 + PERIOD) {};
 }
@@ -171,7 +172,7 @@ void writeServo(float angle) {
   myservo.writeMicroseconds(valueMicros);
 }
 
-void matlab_send(float dato1, float dato2, float dato3, float dato4, float dato5, float dato6, float dato7) {
+void matlab_send(float dato1, float dato2, float dato3, float dato4, float dato5, float dato6, float dato7, float dato8, float dato9) {
   Serial.write("abcd");
   byte *b1 = (byte *)&dato1;
   Serial.write(b1, 4);
@@ -187,5 +188,9 @@ void matlab_send(float dato1, float dato2, float dato3, float dato4, float dato5
   Serial.write(b6, 4);
   byte *b7 = (byte *)&dato7;
   Serial.write(b7, 4);
+  byte *b8 = (byte *)&dato8;
+  Serial.write(b8, 4);
+  byte *b9 = (byte *)&dato9;
+  Serial.write(b9, 4);
   //etc con mas datos tipo float. Tambien podría pasarse como parámetro a esta funcion un array de floats.
 }
