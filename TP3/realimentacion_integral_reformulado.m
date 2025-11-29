@@ -32,7 +32,6 @@ Adi = [Ad zeros(4,1); -Cd2*T eye(1)]
 Bdi = [Bd; 0]
 Cdi = [Cd2 0]
 
-% graficar medición sólo en el primero
 k = 1;
 Ki = place(Adi,Bdi,[exp(T*(k*(-5))) exp(T*(k*(-6))) exp(T*(k*(-12))) exp(T*(k*(-13))) exp(T*(k*(-14)))]);
 eig(Adi-Bdi*Ki)
