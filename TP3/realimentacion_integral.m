@@ -50,6 +50,7 @@ plot(out.tout, out.simulacion.Data(:,1))
 grid minor
 legend('Medición','Estimación','Simulación');
 xlim([3 51])
+ylim([-10 10])
 title('theta')
 
 subplot(2,2,2);
@@ -60,6 +61,7 @@ plot(out.tout, out.simulacion.Data(:,2))
 grid minor
 legend('Medición','Estimación','Simulación');
 xlim([3 51])
+ylim([-100 100])
 title('theta_{dot}')
 
 subplot(2,2,3);
@@ -82,4 +84,5 @@ plot(out.tout, out.simulacion.Data(:,4))
 grid minor
 legend('Medición','Estimación','Simulación');
 xlim([3 51])
+ylim([-100 100])
 title('p_{dot}')
