@@ -1,6 +1,10 @@
 clear all; close all; clc;
 
-load('medicion_observador_2.mat')
+% Medición con un pulso de 10º
+load('medicion_observador_1.mat')
+
+% Medición con un pulso de -10º
+%load('medicion_observador_2.mat')
 
 T = 0.02;
 
@@ -29,9 +33,6 @@ L = place(Ad',Cd',[exp(T*(k*(-8))) exp(T*(k*(-9))) exp(T*(k*(-10))) exp(T*(k*(-1
 L = L'
 eig(Ad-L*Cd)
 
-%sys_total = ss(A-B*K,B,C,D);
-%[y_c, t_c, x] = impulse(7.5*sys_total, out.tout);
-
 tout = out.tout(1:end-2);
 
 figure(5)
@@ -53,7 +54,6 @@ plot(out.tout, out.simulacion.Data(2,:))
 grid minor
 legend('Medición','Estimación', 'Simulación');
 xlim([8 14])
-%ylim([-200 200])
 title('theta_{dot}')
 
 subplot(2,2,3);

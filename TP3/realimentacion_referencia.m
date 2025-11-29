@@ -1,6 +1,10 @@
 clear all; close all; clc;
 
-load('medicion_realimentacion_referencia.mat')
+% Medición sin simulación
+%load('medicion_realimentacion_referencia_2.mat')
+
+% Medición con simulación
+load('medicion_realimentacion_referencia_2.mat')
 
 T = 0.02;
 
@@ -30,44 +34,46 @@ eig(Ad-Bd*K)
 
 F = pinv(C*(inv(eye(4)-(Ad-Bd*K)))*Bd)
 
-% 
-% figure(5)
-% subplot(2,2,1);
-% hold on
-% plot(out.tout, out.medicion.Data(1,:))
-% plot(out.tout, out.medicion.Data(2,:))
-% grid minor
-% legend('Medición','Estimación');
-% xlim([15 80])
-% title('theta')
-% 
-% subplot(2,2,2);
-% hold on
-% plot(out.tout, out.medicion.Data(3,:))
-% plot(out.tout, out.medicion.Data(4,:))
-% grid minor
-% legend('Medición','Estimación');
-% xlim([15 80])
-% ylim([-100 100])
-% title('theta_{dot}')
-% 
-% subplot(2,2,3);
-% hold on
-% plot(out.tout, out.medicion.Data(5,:))
-% plot(out.tout, out.medicion.Data(6,:))
-% plot(out.tout, out.medicion.Data(9,:))
-% grid minor
-% legend('Medición','Estimación', 'Referencia');
-% xlim([15 80])
-% ylim([-10 10])
-% title('p')
-% 
-% subplot(2,2,4);
-% hold on
-% plot(out.tout, out.medicion.Data(7,:))
-% plot(out.tout, out.medicion.Data(8,:))
-% grid minor
-% legend('Medición','Estimación');
-% xlim([15 80])
-% ylim([-80 80])
-% title('p_{dot}')
+figure(5)
+subplot(2,2,1);
+hold on
+plot(out.tout, out.medicion.Data(1,:))
+plot(out.tout, out.medicion.Data(2,:))
+plot(out.tout, out.simulacion.Data(1,:))
+grid minor
+legend('Medición','Estimación','Simulación');
+xlim([15 70])
+title('theta')
+
+subplot(2,2,2);
+hold on
+plot(out.tout, out.medicion.Data(3,:))
+plot(out.tout, out.medicion.Data(4,:))
+plot(out.tout, out.simulacion.Data(2,:))
+grid minor
+legend('Medición','Estimación','Simulación');
+xlim([15 70])
+title('theta_{dot}')
+
+subplot(2,2,3);
+hold on
+plot(out.tout, out.medicion.Data(5,:))
+plot(out.tout, out.medicion.Data(6,:))
+plot(out.tout, out.simulacion.Data(3,:))
+plot(out.tout, out.medicion.Data(9,:))
+grid minor
+legend('Medición','Estimación','Simulación', 'Referencia');
+xlim([15 70])
+ylim([-10 10])
+title('p')
+
+subplot(2,2,4);
+hold on
+plot(out.tout, out.medicion.Data(7,:))
+plot(out.tout, out.medicion.Data(8,:))
+plot(out.tout, out.simulacion.Data(4,:))
+grid minor
+legend('Medición','Estimación','Simulación');
+xlim([15 70])
+ylim([-80 80])
+title('p_{dot}')

@@ -1,5 +1,7 @@
 clear all; close all; clc;
 
+load('medicion_realimentacion_integral_reformulado.mat')
+
 T = 0.02;
 
 A = [ 0    1.0000         0         0;
@@ -37,3 +39,48 @@ eig(Adi-Bdi*Ki)
 -Ki
 K = -Ki(1:end-1)
 H = -Ki(end)
+
+tout = out.tout(1:end-8);
+
+figure(5)
+subplot(2,2,1);
+hold on
+plot(tout, out.medicion.Data(1,:))
+plot(tout, out.medicion.Data(2,:))
+plot(out.tout, out.simulacion.Data(:,1))
+grid minor
+legend('Medición','Estimación','Simulación');
+xlim([69 117])
+title('theta')
+
+subplot(2,2,2);
+hold on
+plot(tout, out.medicion.Data(3,:))
+plot(tout, out.medicion.Data(4,:))
+plot(out.tout, out.simulacion.Data(:,2))
+grid minor
+legend('Medición','Estimación','Simulación');
+xlim([69 117])
+title('theta_{dot}')
+
+subplot(2,2,3);
+hold on
+plot(tout, out.medicion.Data(5,:))
+plot(tout, out.medicion.Data(6,:))
+plot(out.tout, out.simulacion.Data(:,3))
+plot(tout, out.medicion.Data(9,:))
+grid minor
+legend('Medición','Estimación','Simulación', 'Referencia');
+xlim([69 117])
+ylim([-10 10])
+title('p')
+
+subplot(2,2,4);
+hold on
+plot(tout, out.medicion.Data(7,:))
+plot(tout, out.medicion.Data(8,:))
+plot(out.tout, out.simulacion.Data(:,4))
+grid minor
+legend('Medición','Estimación','Simulación');
+xlim([69 117])
+title('p_{dot}')
