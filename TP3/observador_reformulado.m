@@ -1,6 +1,6 @@
 clear all; close all; clc;
 
-load('medicion_observador_1.mat')
+load('medicion_observador_2.mat')
 
 T = 0.02;
 
@@ -23,7 +23,7 @@ Bd = B*T
 Cd = C
 Dd = D;
 
-k = 3;
+k = 1.5;
 
 L = place(Ad',Cd',[exp(T*(k*(-8))) exp(T*(k*(-9))) exp(T*(k*(-10))) exp(T*(k*(-11)))]);
 L = L'
@@ -70,7 +70,7 @@ subplot(2,2,4);
 hold on
 plot(tout, out.medicion.Data(7,:))
 plot(tout, out.medicion.Data(8,:))
-%plot(out.tout, out.simulacion.Data(4,:))
+plot(out.tout, out.simulacion.Data(4,:))
 grid minor
 legend('Medición','Estimación', 'Simulación');
 xlim([8 14])
